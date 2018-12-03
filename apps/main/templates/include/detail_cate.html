@@ -1,0 +1,30 @@
+<div class="homepageCategoryProducts">
+
+{% for cate in cate_list %}
+    <div class="eachHomepageCategoryProducts">
+        <div class="left-mark"></div>
+        <span class="categoryTitle">{{ cate.name }}</span>
+        <br>
+
+{% for  shop in cate.shops %}
+        <div class="productItem">
+
+            <a href="{% url 'detail' %}?sid={{ shop.shop_id }}"><img width="100px"
+                                              src="/static/img/middle/{{ shop.img }}.jpg"></a>
+            <a class="productItemDescLink" href="{% url 'detail' %}?sid={{ shop.shop_id }}">
+								<span class="productItemDesc">{{ shop.name }}
+								</span>
+            </a>
+            <span class="productPrice">
+								<em title="#"><b>¥</b>{{ shop.promote_price }}</em>
+							</span>
+        </div>
+{% endfor %}
+
+
+        <div style="clear:both"></div>
+    </div>
+{% endfor %}
+    <img id="endpng" class="endpng" src="/static/img/site/end.png">
+
+</div>

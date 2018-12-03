@@ -1,0 +1,40 @@
+<div id="header" data-spm="a2226n0">
+    <div class="doodle-con j_doodleCon" style=" position: absolute; margin-left: 8%">
+        <a href="#" class="j_doodleLink" style="display:block;height:100%;width:100%;">
+            <img class="tmall-logo-img" src="/static/img/site/logo.gif"
+                 style=" display:block" width="240px" height="130px;"/>
+        </a>
+    </div>
+
+    <div class="header-banner">
+
+
+    </div>
+    <div id="mallSearch" class="mall-search" style=" margin:auto; position: relative;">
+
+        <form name="searchTop" action="{% url 'search' %}" class="mallSearch-form clearfix"
+              target="_top" accept-charset="ISO-8859-1">
+            <fieldset>
+                <legend>天猫搜索</legend>
+                <div class="mallSearch-input clearfix">
+                    <label for="mq">搜索 天猫 商品/品牌/店铺</label>
+                    <div class="s-combobox">
+                        <div class="s-combobox-input-wrap">
+                            <input type="text" name="q" accesskey="s" autocomplete="off" x-webkit-speech=""
+                                   x-webkit-grammar="builtin:translate" value="" id="mq"
+                                   autocomplete="off"/>
+                        </div>
+                    </div>
+                    <button type="submit">搜索<s></s></button>
+                    <input id="J_Type" type="hidden" name="type" value="p"/>
+                    <input id="J_MallSearchStyle" type="hidden" name="style" value="">
+                    <input id="J_Cat" type="hidden" name="cat" value="all"/>
+                    <input type="hidden" name="vmarket" value="">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+</div>
+
+

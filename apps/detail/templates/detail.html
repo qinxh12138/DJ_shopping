@@ -1,0 +1,256 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+    {{ shop.name }}
+{% endblock %}
+{% block page_main %}
+    {% include 'include/common/top.html' %}
+    <script src="/static/js/jquery3.3.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.img4load').mouseover(function () {
+                let index = $(this).index();
+                $(".img4load li").each(function (i, ele) {
+                    if (i === index) {
+                        $(ele).show()
+                    } else {
+                        $(ele).hide()
+                    }
+                });
+            });
+        })
+
+
+    </script>
+    <script>
+        $(function () {
+            $('#buy').click(function () {
+                {#   往服务器提交数据#}
+                let number = $('#number').val();
+                let shop_id = $(this).attr('shopid');
+                data = {
+                    number: number,
+                    shop_id: shop_id,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                };
+
+                $.post('{% url 'add' %}', data, function (result) {
+                    if (result && result.status === 200) {
+                        let number = $('#car_number').text();
+                        number += result.data;
+                        $('#car_number').text(number)
+                    } else if (result.status === 302) {
+                        window.location.href = result.content
+                    }
+                })
+            })
+        })
+    </script>
+
+    <div class="productPageDiv">
+
+    </div>
+
+    <div class="imgAndInfo">
+        <div class="imgInimgAndInfo">
+            {% for img in shop.imgs %}
+                {% if img.type == 'type_single' %}
+                    {% if  forloop.first %}
+                        <img src="/static/img/middle/{{ img.shop_img_id }}.jpg" class="bigImg">
+                    {% else %}
+                        <div class="smallImageDiv">
+                            <ul>
+                                <li style="display: none"><img src="/static/img/middle/{{ img.shop_img_id }}.jpg"
+                                                               class="bigImg">
+                                </li>
+                            </ul>
+
+                        </div>
+                    {% endif %}
+
+                {% endif %}
+
+            {% endfor %}
+            <div class="img4load">
+                {% for img in shop.imgs %}
+                    {% if img.type == 'type_single' %}
+                        <ul>
+                            <li style="float: left"><img src="/static/img/middle/{{ img.shop_img_id }}.jpg"
+                                                         class="smallImage">
+                            </li>
+                        </ul>
+                    {% endif %}
+
+
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="infoInimgAndInfo">
+
+            <div class="productTitle">
+                {{ shop.name }}
+            </div>
+            <div class="productSubTitle">
+                {{ shop.sub_title }}
+            </div>
+
+            <div class="productPrice">
+                <div class="juhuasuan">
+                    <span class="juhuasuanBig">聚划算</span>
+                    <span>此商品即将参加聚划算，<span class="juhuasuanTime">1天19小时</span>后开始，</span>
+                </div>
+                <div class="productPriceDiv">
+                    <div class="gouwujuanDiv"><img height="16px" src="/static/img/site/gouwujuan.png">
+                        <span> 全天猫实物商品通用</span>
+
+                    </div>
+                    <div class="originalDiv">
+                        <span class="originalPriceDesc">价格</span>
+                        <span class="originalPriceYuan">¥</span>
+                        <span class="originalPrice">
+
+						{{ shop.original_price }}
+					</span>
+                    </div>
+                    <div class="promotionDiv">
+                        <span class="promotionPriceDesc">促销价 </span>
+                        <span class="promotionPriceYuan">¥</span>
+                        <span class="promotionPrice">
+						{{ shop.promote_price }}
+					</span>
+                    </div>
+                </div>
+            </div>
+            <div class="productSaleAndReviewNumber">
+                <div>销量 <span class="redColor boldWord"> {{ shop.stock }}</span></div>
+                <div>累计评价 <span class="redColor boldWord"> 46</span></div>
+            </div>
+            <div class="productNumber">
+                <span>数量</span>
+                <span>
+				<span class="productNumberSettingSpan">
+				<input class="productNumberSetting" id="number" type="text" value="1">
+				</span>
+				<span class="arrow">
+					<a href="#" class="increaseNumber">
+					<span class="updown">
+							<img src="/static/img/site/increase.png">
+					</span>
+					</a>
+
+					<span class="updownMiddle"> </span>
+					<a href="#" class="decreaseNumber">
+					<span class="updown">
+							<img src="/static/img/site/decrease.png">
+					</span>
+					</a>
+
+				</span>
+
+			件</span>
+                <span>库存64件</span>
+            </div>
+            <div class="serviceCommitment">
+                <span class="serviceCommitmentDesc">服务承诺</span>
+                <span class="serviceCommitmentLink">
+				<a href="#">正品保证</a>
+				<a href="#">极速退款</a>
+				<a href="#">赠运费险</a>
+				<a href="#">七天无理由退换</a>
+			</span>
+            </div>
+
+            <div class="buyDiv">
+                <a class="buyLink" href="#">
+                    <button class="buyButton">立即购买</button>
+                </a>
+                <a href="#" class="addCartLink">
+                    {% csrf_token %}
+                    <button class="addCartButton" type="button" id="buy" shopid="{{ shop.shop_id }}"><span
+                            class="glyphicon glyphicon-shopping-cart">加入购物车</span>
+                    </button>
+                </a>
+            </div>
+        </div>
+
+
+        <div style="clear:both"></div>
+
+    </div>
+    <div class="productReviewDiv">
+        <div class="productReviewTopPart">
+            <a href="#nowhere" class="productReviewTopPartSelectedLink">商品详情</a>
+            <a href="#nowhere" class="selected">累计评价 <span
+                    class="productReviewTopReviewLinkNumber">{{ reviews|length }}</span> </a>
+        </div>
+
+
+        <div class="productReviewContentPart">
+
+            <div class="productReviewItem">
+
+                <div class="productReviewItemDesc">
+                    <div class="productReviewItemContent">
+
+                    </div>
+                    <div class="productReviewItemDate">2017-11-21</div>
+                </div>
+                <div class="productReviewItemUserInfo">
+
+                    2**2<span class="userInfoGrayPart">（匿名）</span>
+                </div>
+
+                <div style="clear:both"></div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="productDetailDiv">
+        <div class="productDetailTopPart">
+            <a href="#" class="productDetailTopPartSelectedLink selected">商品详情</a>
+            <a href="#" class="productDetailTopReviewLink">累计评价 <span
+                    class="productDetailTopReviewLinkNumber">{{ reviews|length }}</span> </a>
+        </div>
+
+
+        <div class="productParamterPart">
+            <div class="productParamter">产品参数：</div>
+            {% for value in values %}
+                <div class="productParamterList">
+
+                    <span>{{ value.property.name }}</span>
+                    <span>{{ value.value }}</span>
+
+                </div>
+            {% endfor %}
+            <div style="clear:both"></div>
+        </div>
+
+        <div class="productDetailImagesPart">
+            {% for img in shop.imgs %}
+                {% if img.type == 'type_detail' %}
+
+                    <img src="/static/img/detail/{{ img.shop_img_id }}.jpg">
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+

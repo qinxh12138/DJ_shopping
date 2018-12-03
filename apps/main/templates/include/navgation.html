@@ -1,0 +1,22 @@
+{#<ul class="nav nav-pills">#}
+{#    {% for nav in nav_list %}#}
+{#        <li><a href=""> {{ nav.nav_name }} </a></li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+
+<div class="main-nav" data-spm="2016004">
+    <div class="inner-con0">
+        <div class="inner-con1">
+            <div class="inner-con2 clearfix">
+                {% for nav in nav_list %}
+
+                    <a href="#" aria-label="天猫超市">
+                        <div class="hover-pic"><span style="font-size:20px">{{ nav.nav_name }}</span></div>
+                        <img alt="" src="#">
+
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
